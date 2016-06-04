@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+  <html lang = "en">
+  
+  <head>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <meta charset="utf-8">
+	<link rel="stylesheet" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+       </head>
+  <body>
+  
+  <div class = "container">
+    <div class = "col-md-8 col-md-offset-2">
+      <h2>Let's chat</h2>
+      
+        
+                    <div class="form-group">
+                        <label for="userchat">Chat:</label>
+                        <input type="text" class="form-control" id="userchat" placeholder="Ask me something">
+                    </div>
+          
+            
+          
+        <button id="chatbutton" type="button" class="btn btn-default" onclick="makeChatStory()">Submit</button>
+        
+        <div id="chat"></div>
+      </div>
+ 
+    </div>
+  
+     <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'></script>
+      
+      <script>
+      
+      var greetings = [["hello","hi","howdy","wassup","hey", "bonjour","hola","whats up"],["Oh, hello there!","Woah! I didn't see you there! Soo...hello!","Ummm.....do I know you?","Yes? What do you want?","I'm trying to take a nap, leave me alone!"]];
+      
+          var feelingsResponses = [["how are you","hows it going","how is it going","how are you feeling"],["I'm great! Thanks for asking!","Super duper!","Life sucks!","Mind your own business!"]];
+      
+          var weatherResponses = [["hows the weather","whats the weather like","how is the weather"],["It's sunny!","Not too bad outside", "It's snowing like a muthafucker"]];
+      
+      var superArray = [greetings,feelingsResponses,weatherResponses]
+      
+      
+      
+
+        function makeChatStory(){
+          var content = document.getElementById("userchat").value;
+            document.getElementById("chat").innerHTML += '<b>You: </b>'+ content +'<br>';
+              //var punctuationless = content.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
+            finalString = makeLowercase(content);
+            console.log("User said: ", content);
+            makeResponse(finalString);
+          
+      }
+          
+          
+          
+          
+          function makeResponse(userNewInput){
+              var match = false;
+              
+            for(i=0;i<superArray.length;i++){
+                for(j=0; j<superArray[i].length-1;j++){
+                   for(k=0;k<superArray[i][j].length;k++) {    
+                    if (userNewInput == superArray[i][j][k]) {
+                        var num = Math.floor((Math.random() * superArray[i][1].length));
+                        var content = superArray[i][1][num];
+                     document.getElementById("chat").innerHTML += '<b>Chat Bot: </b>'+ content +'<br>';
+                        match = true;
+                        
+                      break;
+                        }
+                   }
+                }
+                
+            }
+              
+              if (match == false){
+                  
+                   document.getElementById("chat").innerHTML += '<b>Chat Bot: </b>I don\'t understand, should I add this to my vocabulary?<br>'; 
+                 document.getElementById('chatbutton').onclick = function(){ addingVocab(userNewInput); };
+                  //addVocab(userNewInput,arrayNum);
+                    return;
+                               
+              }
+          
+          }
+                   
+    
+          
+    function addingVocab(newWord){
+       var userResponse = document.getElementById("userchat").value;
+        document.getElementById("chat").innerHTML += '<b>You: </b>'+ userResponse +'<br>';
+        var userstring = makeLowercase(userResponse);
+        if (userstring == "no"){
+            document.getElementById("chat").innerHTML += '<b>Chat Bot: </b>Ok<br>';
+            document.getElementById('chatbutton').onclick = function(){ makeChatStory(); };
+        } else if (userstring == "yes"){
+            document.getElementById("chat").innerHTML += '<b>Chat Bot: </b>Ok. How should I categorize it?<br>';
+            
+        } else {
+            document.getElementById("chat").innerHTML += '<b>Chat Bot: </b>Can you clarify? Please respond yes or no?<br>';
+        }
+        
+    }      
+       
+          
+          
+          
+   
+      
+
+          
+          
+function makeLowercase(userString){
+    var punctuationless = userString.replace(/[\u2000-\u206F\u2E00-\u2E7F\\'!"#$%&()*+,\-.\/:;<=>?@\[\]^_`{|}~]/g,"");
+var finalUserString = punctuationless.replace(/\s{2,}/g," ").toLowerCase();
+    console.log(finalUserString);
+    return finalUserString;
+}
+
+
+          
+//Checks for eneter press
+$(document).keypress(function (e) {
+    if (e.which == 13) {
+        makeChatStory();
+    }
+});
+          
+          
+
+//                     
+//              for (i=0;i<greetings.length;i++){
+//                console.log("Comparing " + userNewInput + " with " + greetings[i]);
+//              if (userNewInput == greetings[i]){
+//                  
+//                  var num = Math.floor((Math.random() * greetings.length));
+//                  var content = greetings[num];
+//                  document.getElementById("chat").innerHTML += '<b>Chat Bot: </b>'+ content +'<br>';
+//                  break;
+//                  } else {console.log("not in:"+userNewInput)
+//                     }
+//          }
+//          
+          
+          
+      </script>
+      
+      </body>
+</html>
